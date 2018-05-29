@@ -1,0 +1,19 @@
+<div id="tag_cloud">
+  <% tag_cloud Note.tag_counts, %w[s m l] do |tag, css_class| %>
+    <%= link_to tag.name, tag_path(tag.name), class: css_class %>
+  <% end %>
+</div>
+
+<div id="notes">
+  <% @notes.each do |note| %>
+    <h2><%= link_to note.title, note %></h2>
+    <%= simple_format note.content %>
+    <p>
+      Tags: <%= raw note.tags.map(&:name).map { |t| link_to t, tag_path(t) }.join(', ') %>
+    </p>
+    <p>
+      <%= link_to "Edit Note", edit_note_path(note), class: "btn btn-success" %>
+      <%= link_to "Delete Note", note_path(note), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+    </p>
+  <% end %>
+</div>
